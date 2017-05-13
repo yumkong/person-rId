@@ -31,7 +31,3 @@ In bbox "0001_c1s1_001051_00.jpg", "c1" is the first camera (there are totally 6
 
 As with the last two digits, remember we use the DPM detector. Then, for identity "0001", there may be multiple detected bounding boxes in the frame "c1s1_001051". In other words, a pedestrian in the image may have several bboxes by DPM. So, "00" means that this bounding box is the first one among the several.
 
-==============
-Names beginning with "0000" are distractors produced by DPM false detection.
-Names beginning with "-1" are junks that are neither good nor bad DPM bboxes.
-
