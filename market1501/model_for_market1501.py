@@ -324,7 +324,7 @@ class ImageDataGenerator_for_multiinput(pre_image.ImageDataGenerator):
 def random_test(model, user_name = 'lpc', num = 10):
     #0513 added to fix bug
     with h5py.File('market1501_positive_index.h5','r') as f:
-        def random_select_pos(user_name, num):
+        def random_select_pos(f, user_name, num):
             indexs = list(np.random.choice(range(f['test'].shape[0]),num))
             A = []
             B = []
@@ -397,7 +397,8 @@ if __name__ == '__main__':
     #0512 added load final trained model
     filepath = './weights/weights_on_market1501_0_0_99.h5';
     model.load_weights(filepath)
+    print 'load model weights done.'
     #train(model)
-    print 'model training done.'
+    #print 'model training done.'
     random_test(model, user_name = 'lpc', num = 10)
     print 'model test done.'
