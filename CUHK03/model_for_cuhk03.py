@@ -388,9 +388,11 @@ def train(model,weights_name='weights_on_cuhk03_0_0',train_num=100,one_epoch=300
 
 if __name__ == '__main__':
     print 'default dim order is:',K.image_dim_ordering()
-    user_name = raw_input('please input your system user name:')    
+    user_name = 'yuguang' #raw_input('please input your system user name:')    
     model = model_def()
     print 'model definition done.'
     model = compiler_def(model)
     print 'model compile done.'
-    
+    #0513 added
+    rankcmc = train(model)
+    test_res = test(model, 'test')

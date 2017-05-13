@@ -6,4 +6,5 @@
 *.mat
 *.db
 ./readme_private.md
-market1501/tataset/  #this contains all images
+market1501/dataset/  #this contains all images
+CUHK03/dataset/
