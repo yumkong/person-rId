@@ -389,7 +389,7 @@ def train(model,weights_name='weights_on_market1501_0_0',train_num=100,one_epoch
 
 if __name__ == '__main__':
     print 'default dim order is:',K.image_dim_ordering()
-    user_name = raw_input('please input your system user name:')
+    user_name = 'yg' #raw_input('please input your system user name:')
     model = model_def()
     print 'model definition done.'
     model = compiler_def(model)
@@ -400,5 +400,5 @@ if __name__ == '__main__':
     print 'load model weights done.'
     #train(model)
     #print 'model training done.'
-    random_test(model, user_name = 'lpc', num = 10)
+    aa = random_test(model, user_name = 'lpc', num = 10)
     print 'model test done.'

@@ -63,8 +63,8 @@ def make_hdf5_for_cuhk03(file_path = '/home/lpc/dataset/cuhk-03.mat'):
                     count_t += 1
                     
 if __name__ == '__main__':
-    user_name = raw_input('please input your system user name:')
+    user_name = 'yuguang' #raw_input('please input your system user name:')
     if user_name == 'lpc':
         make_hdf5_for_cuhk03()
     else:
-        make_hdf5_for_cuhk03('/home/'+user_name+'/dataset/cuhk-03.mat')                    
+        make_hdf5_for_cuhk03('/home/'+user_name+'/study/Git_newcode/person-rId/CUHK03/dataset/cuhk-03.mat')                    
