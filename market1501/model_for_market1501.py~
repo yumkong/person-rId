@@ -290,7 +290,7 @@ class NumpyArrayIterator_for_Market1501(pre_image.Iterator):
                 if index_1[6] != index_2[6] and index_1[0:4] != index_2[0:4]:
                     break
             x1 = np.array(Image.open(self.folder_dir + index_1)) / 255.
-            print(self.folder_dir + index_2)
+            #print(self.folder_dir + index_2)
             x2 = np.array(Image.open(self.folder_dir + index_2)) / 255.
             batch_x1[2*i+1] = x1
             batch_x2[2*i+1] = x2
@@ -322,22 +322,23 @@ class ImageDataGenerator_for_multiinput(pre_image.ImageDataGenerator):
 
     
 def random_test(model, user_name = 'lpc', num = 10):
-    
-    def random_select_pos(user_name, num):
-        indexs = list(np.random.choice(range(f['test'].shape[0]),num))
-        A = []
-        B = []
-        for index in indexs:
-            path1 = f['test'][index,0]
-            path2 = f['test'][index,1]
-            print path1[0:7], path2[0:7]
-            A.append(np.array(Image.open('./dataset/market1501/bounding_box_test/' + path1)))
-            B.append(np.array(Image.open('./dataset/market1501/bounding_box_test/' + path2)))
-            
-        return np.array(A)/255.,np.array(B)/255.
-    
-    A,B = random_select_pos(f, user_name, num)
-    return model.predict([A,B],batch_size = 100)[:,1]
+    #0513 added to fix bug
+    with h5py.File('market1501_positive_index.h5','r') as f:
+        def random_select_pos(f, user_name, num):
+            indexs = list(np.random.choice(range(f['test'].shape[0]),num))
+            A = []
+            B = []
+            for index in indexs:
+                path1 = f['test'][index,0]
+                path2 = f['test'][index,1]
+                print path1[0:7], path2[0:7]
+                A.append(np.array(Image.open('./dataset/market1501/bounding_box_test/' + path1)))
+                B.append(np.array(Image.open('./dataset/market1501/bounding_box_test/' + path2)))
+                
+            return np.array(A)/255.,np.array(B)/255.
+        
+        A,B = random_select_pos(f, user_name, num)
+        return model.predict([A,B],batch_size = 100)[:,1]
    
 def cmc(model):
     
@@ -383,17 +384,26 @@ def train(model,weights_name='weights_on_market1501_0_0',train_num=100,one_epoch
                         )
             Rank1s.append(round(cmc(model)[0],2))
             print Rank1s
-            model.save_weights('weights/'+weights_name+'_'+str(i)+'.h5')
+            model.save_weights('./weights/'+weights_name+'_'+str(i)+'.h5')
         return Rank1s
 
 if __name__ == '__main__':
     print 'default dim order is:',K.image_dim_ordering()
-    user_name = raw_input('please input your system user name:')
+    user_name = 'yg' #raw_input('please input your system user name:')
     model = model_def()
     print 'model definition done.'
     model = compiler_def(model)
     print 'model compile done.'
-    train(model)
-    print 'model training done.'
+    #0512 added load final trained model
+    filepath = './weights/weights_on_market1501_0_0_99.h5';
+    model.load_weights(filepath)
+    print 'load model weights done.'
+    #train(model)
+<<<<<<< HEAD
+    #print 'model training done.'
     random_test(model, user_name = 'lpc', num = 10)
+=======
+    print 'model training done.'
+    aa = random_test(model, user_name = 'lpc', num = 10)
+>>>>>>> 79ed1a7c3522578312c3b41dba8e38e6332d25fd
     print 'model test done.'
