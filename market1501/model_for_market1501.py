@@ -332,6 +332,7 @@ def random_test(model, user_name = 'lpc', num = 10):
                 path1 = f['test'][index,0]
                 path2 = f['test'][index,1]
                 print path1[0:7], path2[0:7]
+                # (10, 128, 64,3)
                 A.append(np.array(Image.open('./dataset/market1501/bounding_box_test/' + path1)))
                 B.append(np.array(Image.open('./dataset/market1501/bounding_box_test/' + path2)))
                 
@@ -375,6 +376,8 @@ def train(model,weights_name='weights_on_market1501_0_0',train_num=100,one_epoch
             if flag_random:
                 rand_x = np.random.rand()
                 flag_train = random_pattern(rand_x)
+            # one_epoch: number of samples to process before going to the next epoch
+            # epoch_num: total number of iterations on the data
             model.fit_generator(
                         Data_Generator.flow(f,get_image_path_list(system_user_name=user_name),user_name,flag=flag_train),
                         one_epoch,
